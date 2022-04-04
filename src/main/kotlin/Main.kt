@@ -19,7 +19,35 @@ fun main() {
     println("Find range: ${findRange(listOf(4, 6, 6, 6, 9),6)}")
     println("Find range: ${findRange(listOf(1, 3, 8, 10, 15),10)}")
     println("Find range: ${findRange(listOf(1, 3, 8, 10, 15),12)}")
+
+    println("Find searchArrayReader: ${searchArrayReader(ArrayReader(ArrayList(listOf(4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30))),16)}")
+    println("Find searchArrayReader: ${searchArrayReader(ArrayReader(ArrayList(listOf(4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30))),11)}")
+    println("Find searchArrayReader: ${searchArrayReader(ArrayReader(ArrayList(listOf(1, 3, 8, 10, 15))),15)}")
+    println("Find searchArrayReader: ${searchArrayReader(ArrayReader(ArrayList(listOf(1, 3, 8, 10, 15))),200)}")
 }
+
+fun searchArrayReader(reader: ArrayReader, target: Int): Int {
+    // first find bound we can use to binary search
+    var start = 0
+    var end = 1
+    while(reader.get(end) < target) {
+        val newStart = end + 1
+        end += (end - start + 1) * 2
+        start = newStart
+    }
+    // now we can search
+    while(start <= end) {
+        val middle = start + (end-start)/2
+
+        if(target > reader.get(middle)) start = middle + 1
+        else if(target < reader.get(middle)) end = middle-1
+        else return middle
+    }
+    return -1
+}
+
+
+
 
 fun findRange(list: List<Int>, target: Int): Pair<Int,Int> {
     if(target > list.last() || target < list.first()) return Pair(-1,-1)
