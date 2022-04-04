@@ -31,6 +31,23 @@ fun main() {
     println("Find minimum diff: ${findMinimumDifference(listOf(4, 6, 10),4)}")
     println("Find minimum diff: ${findMinimumDifference(listOf(1, 3, 8, 10, 15),12)}")
     println("Find minimum diff: ${findMinimumDifference(listOf(4, 6, 10),17)}")
+
+    println("Find bitonic max: ${findBitonicMax(listOf(1, 3, 8, 12, 4, 2))}")
+    println("Find bitonic max: ${findBitonicMax(listOf(3, 8, 3, 1))}")
+    println("Find bitonic max: ${findBitonicMax(listOf(1, 3, 8, 12))}")
+    println("Find bitonic max: ${findBitonicMax(listOf(10, 9, 8))}")
+}
+
+fun findBitonicMax(list: List<Int>): Int {
+    var start = 0
+    var end = list.size-1
+    while(start <= end) {
+        val middle = start + (end-start)/2
+        if(middle == list.size-1) return list[middle]
+        if(list[middle] > list[middle+1]) end = middle - 1
+        else start = middle + 1
+    }
+    return list[start]
 }
 // given ascending list, find number with minimal diff to target
 fun findMinimumDifference(list: List<Int>, target: Int): Int {
