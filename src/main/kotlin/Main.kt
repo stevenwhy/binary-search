@@ -4,10 +4,32 @@ fun main() {
     println("Binary search unknown order: ${binarySearch(listOf(1,2,3,4,5,6,7),5)}")
     println("Binary search unknown order: ${binarySearch(listOf(10,6,4),10)}")
     println("Binary search unknown order: ${binarySearch(listOf(10,6,4),4)}")
-
     println("Binary search unknown order: ${binarySearch(listOf(10,6,4),3)}")
+
+    println("Find ceiling: ${findCeiling(listOf(4,6,10),6)}")
+    println("Find ceiling: ${findCeiling(listOf(1,3,8,10,14),12)}")
+    println("Find ceiling: ${findCeiling(listOf(4,6,10),17)}")
+    println("Find ceiling: ${findCeiling(listOf(4,6,10),-1)}")
 }
 
+// given asc list, find smallest number >= target, return index
+fun findCeiling(list: List<Int>, target: Int): Int {
+    var start = 0
+    var end = list.size-1
+    var middle = start + (end-start)/2
+
+    while(start <= end) {
+        if(list[middle] >= target && ( middle == 0 || list[middle-1] < target)) return middle
+
+        if(list[middle] >= target) {
+            end = middle - 1
+        } else if (list[middle] < target) {
+            start = middle + 1
+        }
+        middle = start + (end-start)/2
+    }
+    return -1
+}
 // given a sorted list, asc or desc, find index of target
 fun binarySearch(list: List<Int>, target: Int): Int {
     var start = 0
