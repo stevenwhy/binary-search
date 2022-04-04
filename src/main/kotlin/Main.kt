@@ -1,3 +1,5 @@
+import kotlin.math.abs
+
 fun main() {
 
     println("Binary search unknown order: ${binarySearch(listOf(4,6,10),10)}")
@@ -24,6 +26,29 @@ fun main() {
     println("Find searchArrayReader: ${searchArrayReader(ArrayReader(ArrayList(listOf(4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30))),11)}")
     println("Find searchArrayReader: ${searchArrayReader(ArrayReader(ArrayList(listOf(1, 3, 8, 10, 15))),15)}")
     println("Find searchArrayReader: ${searchArrayReader(ArrayReader(ArrayList(listOf(1, 3, 8, 10, 15))),200)}")
+
+    println("Find minimum diff: ${findMinimumDifference(listOf(4, 6, 10),7)}")
+    println("Find minimum diff: ${findMinimumDifference(listOf(4, 6, 10),4)}")
+    println("Find minimum diff: ${findMinimumDifference(listOf(1, 3, 8, 10, 15),12)}")
+    println("Find minimum diff: ${findMinimumDifference(listOf(4, 6, 10),17)}")
+}
+// given ascending list, find number with minimal diff to target
+fun findMinimumDifference(list: List<Int>, target: Int): Int {
+    if(target >= list.last()) return list.last()
+    if(target <= list.first()) return list.first()
+    var start = 0
+    var end = list.size
+    while(start <= end) {
+        val middle = start + (end-start)/2
+
+        if(target > list[middle]) {
+            start = middle + 1
+        } else if ( target < list[middle]) {
+            end = middle - 1
+        } else return target
+    }
+    return if(abs(list[start] - target) > abs(list[end] - target)) list[end]
+    else list[start]
 }
 
 fun searchArrayReader(reader: ArrayReader, target: Int): Int {
@@ -45,9 +70,6 @@ fun searchArrayReader(reader: ArrayReader, target: Int): Int {
     }
     return -1
 }
-
-
-
 
 fun findRange(list: List<Int>, target: Int): Pair<Int,Int> {
     if(target > list.last() || target < list.first()) return Pair(-1,-1)
