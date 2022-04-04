@@ -38,6 +38,7 @@ fun main() {
     println("Find bitonic max: ${findBitonicMax(listOf(10, 9, 8))}")
 }
 
+// We want to binary search, check if middle is > middle-1 to know which half to search next
 fun findBitonicMax(list: List<Int>): Int {
     var start = 0
     var end = list.size-1
@@ -68,6 +69,9 @@ fun findMinimumDifference(list: List<Int>, target: Int): Int {
     else list[start]
 }
 
+// we don't know the length of the array we are searching but we know it is sorted ascending.
+//   so we can start at start=0 end=1 and double our window size until target < arr[end]
+//    then just binary search from start to end
 fun searchArrayReader(reader: ArrayReader, target: Int): Int {
     // first find bound we can use to binary search
     var start = 0
@@ -88,6 +92,10 @@ fun searchArrayReader(reader: ArrayReader, target: Int): Int {
     return -1
 }
 
+// finding range of a number in a sorted list is just binary searching for the number twice.
+//   once where if we find the number we search lower side
+//   and again if we find the number we search the upper side.
+//     for both if we end up not being equal to target then we return -1
 fun findRange(list: List<Int>, target: Int): Pair<Int,Int> {
     if(target > list.last() || target < list.first()) return Pair(-1,-1)
 
@@ -120,6 +128,11 @@ private fun findUpperRange(list: List<Int>, target: Int): Int {
     if(list[end] != target) return -1
     return end
 }
+
+// Here we are given a list of letters sorted alphabetically and a letter to search for.
+//   we want to return the next letter in the list after target, even if target doesnt exist
+//   we will binary search for the letter, if we find it or are below the target, we check right side of the list
+//   as soon as we pass it, start will be on the index right after target and wont increment so that is our result
 fun nextSmallestLetter(list: List<Char>, target: Char): Char {
     if(target >= list.last() || target < list.first()) return list.first()
 
